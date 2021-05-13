@@ -4,7 +4,7 @@ const moment = require('moment');
 const SEPARATOR = {
     FOLDER_SEPARATOR : '/',
     EXTENSION_SEPARATOR : '.'
-}
+};
 
 /**
  * 파일의 존재여부 확인
