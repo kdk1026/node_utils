@@ -1,7 +1,7 @@
 /**
  * @author 김대광 <daekwang1026&#64;gmail.com>
  * @since 2021.05.13
- * @version 1.2
+ * @version 1.1
  * @description Java 유틸을 그대로 옮김 (아래 링크 참고)
  *  - JavaScript 특성 상, 함수명은 동일하나 인자값이 다른 경우, 마지막 함수만 인식하므로 그런 케이스의 함수명만 다름
  * @link https://github.com/kdk1026/CommonJava8/blob/master/CommonJava8/src/main/java/common/util/date/Jsr310DateUtil.java
