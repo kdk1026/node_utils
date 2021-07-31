@@ -5,6 +5,9 @@
  * @description Java 유틸을 그대로 옮김 (아래 링크 참고)
  *  - JavaScript 특성 상, 함수명은 동일하나 인자값이 다른 경우, 마지막 함수만 인식하므로 그런 케이스의 함수명만 다름
  * @link https://github.com/kdk1026/CommonJava8/blob/master/CommonJava8/src/main/java/common/util/date/Jsr310DateUtil.java
+ * 
+ * @description moment.js 다운로드 받아서 inject(import) 한 경우, 다음 라인 삭제 후, 파일 inject(import) 하여 사용 가능
+ *  - const moment = require('moment');
  */
 
 const moment = require('moment');
