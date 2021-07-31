@@ -1,3 +1,11 @@
+/**
+ * @author 김대광 <daekwang1026&#64;gmail.com>
+ * @since 2021.05.13
+ * @version 1.2
+ * @description Java 유틸을 참고 (아래 링크 참고)
+ * @link https://github.com/kdk1026/CommonJava8/blob/master/CommonJava8/src/main/java/common/util/file/FileUtil.java
+ */
+
 const fs = require('fs');
 const moment = require('moment');
 
@@ -162,6 +170,11 @@ function getFileList(filePath) {
     return filesNames;
 }
 
+/**
+ * 해당 경로의 디렉토리 반환
+ * @param {string} filePath 
+ * @returns 
+ */
 function getDirectoryList(filePath) {
     const dirents = fs.readdirSync(filePath, { withFileTypes: true });
 

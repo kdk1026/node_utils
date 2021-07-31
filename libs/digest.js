@@ -1,3 +1,11 @@
+/**
+ * @author 김대광 <daekwang1026&#64;gmail.com>
+ * @since 2021.05.12
+ * @version 1.2
+ * @description Java 유틸을 참고 (아래 링크 참고)
+ * @link https://github.com/kdk1026/CommonJava8/blob/master/CommonJava8/src/main/java/common/util/crypto/HashFunctionUtil.java
+ */
+
 const crypto = require("crypto");
 
 function md5Hex(plainText) {

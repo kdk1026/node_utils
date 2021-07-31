@@ -1,3 +1,12 @@
+/**
+ * @author 김대광 <daekwang1026&#64;gmail.com>
+ * @since 2021.05.13
+ * @version 1.2
+ * @description Java 유틸을 그대로 옮김 (아래 링크 참고)
+ *  - JavaScript 특성 상, 함수명은 동일하나 인자값이 다른 경우, 마지막 함수만 인식하므로 그런 케이스의 함수명만 다름
+ * @link https://github.com/kdk1026/CommonJava8/blob/master/CommonJava8/src/main/java/common/util/date/Jsr310DateUtil.java
+ */
+
 const moment = require('moment');
 
 const FORMAT = {
@@ -163,6 +172,17 @@ const CalcDate = {
         return moment().add(months, 'months').format(FORMAT.YYYYMMDD);
     },
     /**
+     * 현재 날짜의 이전/이후 날짜를 해당 포맷 형식의 String 타입으로 반환
+     *   - 인자 값이 음수 인 경우, 이전 날짜 반환
+     *   - 인자 값이 양수 인 경우, 이후 날짜 반환
+     * @param {number} months 
+     * @param {string} dateForamt 
+     * @returns 
+     */
+    plusMinusMonthFormat : function(months, dateForamt) {
+        return moment().add(months, 'months').format(dateForamt);
+    },
+    /**
      * yyyyMMdd 형식의 String 타입 날짜의 이전/이후 날짜를 yyyyMMdd 형식의 String 타입으로 반환
      *    - 인자 값이 음수 인 경우, 이전 날짜 반환
      *   - 인자 값이 양수 인 경우, 이후 날짜 반환
@@ -174,14 +194,37 @@ const CalcDate = {
         return moment(strDate, ["YYYYMMDD"], true).add(months, 'months').format(FORMAT.YYYYMMDD);
     },
     /**
+     * 해당 포맷 형식의 String 타입 날짜의 이전/이후 날짜를 해당 포맷 형식의 String 타입으로 반환
+     *    - 인자 값이 음수 인 경우, 이전 날짜 반환
+     *   - 인자 값이 양수 인 경우, 이후 날짜 반환
+     * @param {string} strDate 
+     * @param {number} months 
+     * @param {string} dateForamt 
+     * @returns 
+     */
+    plusMinusMonthStringFormat : function(strDate, months, dateForamt) {
+        return moment(strDate, [dateForamt], true).add(months, 'months').format(dateForamt);
+    },
+    /**
      * 현재 날짜의 이전/이후 날짜를 yyyyMMdd 형식의 String 타입으로 반환
      *   - 인자 값이 음수 인 경우, 이전 날짜 반환
      *   - 인자 값이 양수 인 경우, 이후 날짜 반환
-     * @param {*} years 
+     * @param {number} years 
      * @returns 
      */
     plusMinusYear : function(years) {
         return moment().add(years, 'years').format(FORMAT.YYYYMMDD);
+    },
+    /**
+     * 현재 날짜의 이전/이후 날짜를 해당 포맷 형식의 String 타입으로 반환
+     *   - 인자 값이 음수 인 경우, 이전 날짜 반환
+     *   - 인자 값이 양수 인 경우, 이후 날짜 반환
+     * @param {number} years 
+     * @param {string} dateForamt 
+     * @returns 
+     */
+    plusMinusYearFormat : function(years, dateForamt) {
+        return moment().add(years, 'years').format(dateForamt);
     },
     /**
      * yyyyMMdd 형식의 String 타입 날짜의 이전/이후 날짜를 yyyyMMdd 형식의 String 타입으로 반환
@@ -193,6 +236,18 @@ const CalcDate = {
      */
     plusMinusYearString : function(strDate, years) {
         return moment(strDate, ["YYYYMMDD"], true).add(years, 'years').format(FORMAT.YYYYMMDD);
+    },
+    /**
+     * 해당 포맷 형식의 String 타입 날짜의 이전/이후 날짜를 해당 포맷 형식의 String 타입으로 반환
+     *   - 인자 값이 음수 인 경우, 이전 날짜 반환
+     *   - 인자 값이 양수 인 경우, 이후 날짜 반환 
+     * @param {string} strDate 
+     * @param {number} years 
+     * @param {string} dateForamt 
+     * @returns 
+     */
+    plusMinusYearStringFormat : function(strDate, years, dateForamt) {
+        return moment(strDate, [dateForamt], true).add(years, 'years').format(dateForamt);
     }
 };
 
