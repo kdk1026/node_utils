@@ -6,11 +6,11 @@
  *  - JavaScript 특성 상, 함수명은 동일하나 인자값이 다른 경우, 마지막 함수만 인식하므로 그런 케이스의 함수명만 다름
  * @link https://github.com/kdk1026/CommonJava8/blob/master/CommonJava8/src/main/java/common/util/date/Jsr310DateUtil.java
  * 
- * @description moment.js 다운로드 받아서 inject(import) 한 경우, 불필요 항목 삭제 및 함수명 수정 후, 파일 inject(import) 하여 사용 가능
+ * @description moment.js 다운로드 받아서 inject(import) 한 경우, 불필요 항목 삭제 및 Object명 수정 후, 파일 inject(import) 하여 사용 가능
  *  - 최상단: const moment = require('moment');
  *  - 최하단: module.exports
  * 
- *  - 함수명은 Object 형태로 변경 (아래 링크 참고)
+ *  - Object명 변경 형태 (아래 링크 참고)
  *      @link https://github.com/kdk1026/JsUtilsKdk/blob/master/JsUtilsKdk/common.js
  */
 
