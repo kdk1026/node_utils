@@ -25,6 +25,20 @@ const ALGORITHM = {
 };
 
 /**
+ * 랜덤 바이트 어레이 생성
+ *   - 자세히 모르겠음...
+ *   - 다른 시스템과 연계시에는 사용못할 듯
+ * 
+ *   - 단독 사용 시, 다음과 같은 형태로 사용해야 할 듯
+ *   - 암호화/복호화 메소드 인자에 bytesIV 추가
+ *   - CRYPTO_CONFIG.IV 대신 인자 bytesIV 사용
+ * @returns 
+ */
+function makeSecureIv() {
+    return crypto.randomBytes(16);
+}
+
+/**
  * AES 암호화 + Base64 인코딩
  *   - AES-128 키 길이 : 16 byte
  *   - AES-192 키 길이 : 24 byte
