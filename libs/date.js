@@ -12,6 +12,9 @@
  * 
  *  - Object명 변경 형태 (아래 링크 참고)
  *      @link https://github.com/kdk1026/JsUtilsKdk/blob/master/JsUtilsKdk/common.js
+ * 
+ * @description Moment.js는 더 이상 활발하게 개발되지 않아 레거시가 되었음
+ *  - API가 거의 동일한 Day.js 사용 권장
  */
 
 const moment = require('moment');
@@ -118,7 +121,7 @@ const Convert = {
      * @returns 
      */
     getStringToDate : function(strDate) {
-        if (strDate.length == 14) {
+        if (strDate.length === 14) {
             return moment(strDate, ["YYYYMMDDHHmmss"], true).toDate();
         } else {
             return moment(strDate, ["YYYYMMDD"], true).toDate();
@@ -330,7 +333,7 @@ const GetDateInterval = {
         let fixDate = moment(strFixDate, ["YYYYMMDD"], true).toDate();
         let targetDate = moment().toDate();
         let result = moment.duration(fixDate - targetDate).asYears();
-        return (Math.round(result) == -0) ? 0 : Math.round(result);
+        return Object.is(Math.round(result), -0) ? 0 : Math.round(result);
     },
     /**
      * 현재 날짜와 월 간격 구하기
@@ -342,7 +345,7 @@ const GetDateInterval = {
         let fixDate = moment(strFixDate, ["YYYYMMDD"], true).toDate();
         let targetDate = moment().toDate();
         let result = moment.duration(fixDate - targetDate).asMonths();
-        return (Math.ceil(result) == -0) ? 0 : Math.ceil(result);
+        return Object.is(Math.ceil(result), -0) ? 0 : Math.ceil(result);
     },
     /**
      * 현재 날짜와 일자 간격 구하기
@@ -354,7 +357,7 @@ const GetDateInterval = {
         let fixDate = moment(strFixDate, ["YYYYMMDD"], true).toDate();
         let targetDate = moment().toDate();
         let result = moment.duration(fixDate - targetDate).asDays();
-        return (Math.ceil(result) == -0) ? 0 : Math.ceil(result);
+        return Object.is(Math.ceil(result), -0) ? 0 : Math.ceil(result);
     }
 };
 
@@ -372,7 +375,7 @@ const GetTimeInterval = {
         let fixDate = moment(strFixDate, ["YYYYMMDDHHmmss"], true).toDate();
         let targetDate = moment().toDate();
         let result = moment.duration(fixDate - targetDate).asHours();
-        return (Math.ceil(result) == -0) ? 0 : Math.ceil(result);
+        return Object.is(Math.ceil(result), -0) ? 0 : Math.ceil(result);
     },
     /**
      * 현재 날짜와 분 간격 구하기
@@ -384,7 +387,7 @@ const GetTimeInterval = {
         let fixDate = moment(strFixDate, ["YYYYMMDDHHmmss"], true).toDate();
         let targetDate = moment().toDate();
         let result = moment.duration(fixDate - targetDate).asMinutes();
-        return (Math.ceil(result) == -0) ? 0 : Math.ceil(result);
+        return Object.is(Math.ceil(result), -0) ? 0 : Math.ceil(result);
     },
     /**
      * 현재 날짜와 초 간격 구하기
@@ -396,7 +399,7 @@ const GetTimeInterval = {
         let fixDate = moment(strFixDate, ["YYYYMMDDHHmmss"], true).toDate();
         let targetDate = moment().toDate();
         let result = moment.duration(fixDate - targetDate).asSeconds();
-        return (Math.ceil(result) == -0) ? 0 : Math.ceil(result);
+        return Object.is(Math.ceil(result), -0) ? 0 : Math.ceil(result);
     }
 };
 
@@ -436,7 +439,7 @@ const GetDayOfWeek = {
     },
     /**
      * 현재 날짜의 로케일 요일 구하기
-     *   - Locale 목록 : https://www.ge.com/digital/documentation/predix-services/c_custom_locale_support.html
+     *   - Locale 목록 : https://momentjs.com/ > `Multiple Locale Support`
      * @param {string} locale 
      * @returns 
      */
@@ -466,12 +469,30 @@ const GetDayOfMonth = {
         return moment().daysInMonth();
     },
     /**
+     * 현재 날짜의 마지막 일자를 yyyyMMdd 형식으로 반환
+     */
+    getLastDayOfMonthString: function() {
+        return moment().endOf('month').format('YYYYMMDD');
+    },
+    /**
      * yyyyMMdd 형식의 String 타입에 해당하는 월의 마지막 일자를 반환
+     * - Java 와 다르게 인자가 달라도 함수명은 구분해야 함
      * @param {string} strDate 
      * @returns 
      */
-    getLastDayOfMonthString : function(strDate) {
+    getLastDayOfMonthForDate : function(strDate) {
         return moment(strDate, ["YYYYMMDD"], true).daysInMonth();
+    },
+    /**
+     * yyyyMMdd 형식의 String 타입에 해당하는 월의 마지막 일자를 yyyyMMdd 형식으로 반환
+     * - Java 와 다르게 인자가 달라도 함수명은 구분해야 함
+     * @param {string} strDate 
+     * @returns 
+     */
+    getLastDayOfMonthStringForDate: function(strDate) {
+        const daysInMonth = moment(strDate, ["YYYYMMDD"], true).daysInMonth();
+        const lastDay = moment(strDate, ["YYYYMMDD"], true).date(daysInMonth);
+        return lastDay.format('YYYYMMDD');
     }
 };
 
@@ -512,6 +533,92 @@ const UnixTimestamp = {
     }
 };
 
+/**
+ * Check
+ */
+const Check = {
+    /**
+     * 해당 날짜가 월의 마지막에 속하는지 체크
+     * @param {string} strDate 
+     * @returns 
+     */
+    isLastWeekOfMonth : function(strDate) {
+        const date = moment(strDate, ["YYYYMMDD"], true);
+        const lastDayOfMonth = date.clone().endOf('month');
+        const startOfLastWeek = lastDayOfMonth.clone().startOf('week');
+        return date.isSameOrAfter(startOfLastWeek);
+    },
+    /**
+     * 해당 날짜가 월의 첫째주에 속하는지 체크
+     * @param {string} strDate 
+     * @returns 
+     */
+    isFistWeekOfMonth : function(strDate) {
+        const date = moment(strDate, ["YYYYMMDD"], true);
+        const firstDayOfMonth = date.clone().startOf('month');
+        const endOfFirstWeek = firstDayOfMonth.clone().endOf('week');
+        return date.isSameOrBefore(endOfFirstWeek);
+    }
+};
+
+/**
+ * 날짜 설정
+ * - 이후 다음 함수를 사용하여 String 타입으로 변환
+ * - Convert.getDateToString(date), Convert.getDateToStringFormat(date, dateFormat)
+ */
+const SetDate = {
+    /**
+     * 연, 월, 일로 Date 객체 구하기
+     * @param {number} year 
+     * @param {number} month 
+     * @param {number} day 
+     * @returns 
+     */
+    getDateByYearMonthDay : function(year, month, day) {
+        const momentObj = moment().year(year).month(month).date(day);
+        return momentObj.toDate();
+    },
+    /**
+     * 연, 월, 일, 시로 Date 객체 구하기
+     * @param {number} year 
+     * @param {number} month 
+     * @param {number} day 
+     * @param {number} hour 
+     * @returns 
+     */
+    getDateByYearMonthDayHour : function(year, month, day, hour) {
+        const momentObj = moment().year(year).month(month).date(day).hour(hour);
+        return momentObj.toDate();
+    },
+    /**
+     * 연, 월, 일, 시, 분으로 Date 객체 구하기
+     * @param {number} year 
+     * @param {number} month 
+     * @param {number} day 
+     * @param {number} hour 
+     * @param {number} minute 
+     * @returns 
+     */
+    getDateByYearMonthDayHourMinute : function(year, month, day, hour, minute) {
+        const momentObj = moment().year(year).month(month).date(day).hour(hour).minute(minute);
+        return momentObj.toDate();
+    },
+    /**
+     * 연, 월, 일, 시, 분, 초로 Date 객체 구하기
+     * @param {number} year 
+     * @param {number} month 
+     * @param {number} day 
+     * @param {number} hour 
+     * @param {number} minute 
+     * @param {number} second 
+     * @returns 
+     */
+    getDateByYearMonthDayHourMinuteSecond : function(year, month, day, hour, minute, second) {
+        const momentObj = moment().year(year).month(month).date(day).hour(hour).minute(minute).second(second);
+        return momentObj.toDate();
+    }
+};
+
 module.exports = {
     Today,
     StringFormat,
@@ -522,5 +629,7 @@ module.exports = {
     GetTimeInterval,
     GetDayOfWeek,
     GetDayOfMonth,
-    UnixTimestamp
+    UnixTimestamp,
+    Check,
+    SetDate
 };
