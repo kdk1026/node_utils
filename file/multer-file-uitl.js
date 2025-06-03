@@ -56,6 +56,20 @@ const uploadMiddleware = multer({
  * 파일 업로드
  * @param {string} fieldName 
  * @returns 
+ * 
+ * @example
+ * const app = express();
+ * const multerFileUtil = require('./file/multer-file-uitl.js');
+ * 
+ * app.post('/upload-single', multerFileUtil.uploadFile('myFile'), (req, res) => {
+ *  console.log('업로드된 파일:', req.file);
+ *  res.status(200).json({
+ *      success: true,
+ *      message: '파일이 성공적으로 업로드되었습니다.',
+ *      fileName: req.file.filename,
+ *      originalName: req.file.originalname
+ *  });
+ * });
  */
 const uploadFile = (fieldName) => {
     return (req, res, next) => {
@@ -80,10 +94,22 @@ const uploadFile = (fieldName) => {
 
 /**
  * 파일 다운로드
- * @param {*} req 
- * @param {*} res 
+ * @param {import('express').Request} req 
+ * @param {import('express').Response} res 
  * @param {string} saveFileNm 
  * @param {string} originalFileNm 
+ * 
+ * @example
+ * const app = express();
+ * const multerFileUtil = require('./file/multer-file-uitl.js');
+ * 
+ * app.get('/download', (req, res) => {
+ *  const { saved, original } = req.query;
+ *      if (!saved || !original) {
+ *          return res.status(400).json({ success: false, message: '다운로드할 파일 정보가 부족합니다.' });
+ *      }
+ *  multerFileUtil.downloadFile(req, res, saved, original);
+ * });
  */
 const downloadFile = (req, res, saveFileNm, originalFileNm) => {
     const filePath = path.join(__dirname, `${UPLOAD_FILE_PATH}`, saveFileNm);
@@ -112,6 +138,22 @@ const downloadFile = (req, res, saveFileNm, originalFileNm) => {
  * @param {string} fieldName 
  * @param {number} maxCount 
  * @returns 
+ * 
+ * @example
+ * const app = express();
+ * const multerFileUtil = require('./file/multer-file-uitl.js');
+ * 
+ * app.post('/upload-multiple', multerFileUtil.uploadFiles('myFiles', 5), (req, res) => {
+ *  console.log('업로드된 파일들:', req.files);
+ *  res.status(200).json({
+ *      success: true,
+ *      message: `${req.files.length}개의 파일이 성공적으로 업로드되었습니다.`,
+ *      uploadedFiles: req.files.map(file => ({
+ *          fileName: file.filename,
+ *          originalName: file.originalname
+ *      }))
+ *  });
+ * });
  */
 const uploadFiles = (fieldName, maxCount = 10) => {
     return (req, res, next) => {
