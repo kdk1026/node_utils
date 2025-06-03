@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/kdk1026/node_utils#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "mime-types": "^2.1.30",
     "moment": "^2.29.1",
     "node-forge": "^1.3.1"

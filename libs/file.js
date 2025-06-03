@@ -129,6 +129,7 @@ function deleteFile(filePath) {
         fs.unlinkSync(filePath);
         return true;
     } catch (e) {
+        console.error(e);
         return false;
     }
 }

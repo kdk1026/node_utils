@@ -16,7 +16,7 @@ const KEY_IS_NULL = 'key must not be null';
  * - crypto 모듈은 기본적으로 PKCS7 패딩을 사용
  * - PKCS5Padding은 사실상 PKCS7Padding과 동일하게 동작
  */
-const AES_ALGORITHM = {
+const aesAlgorithm = {
     /** 가장 일반적 (권장) */
     AES_128_CBC : 'aes-128-cbc',
 
@@ -38,7 +38,7 @@ const AES_ALGORITHM = {
 
 /** AES 키 생성 (128, 192, 256 비트 가능) */
 const generateAesKey = (keySize) => {
-    if ( keySize === null || keySize === undefined ) {
+    if (keySize === null || keySize === undefined) {
         throw new Error('keySize must not be null');
     }
 
@@ -118,7 +118,7 @@ const aesDecrypt = (algorithm, base64KeyString, ivStr, cipherText) => {
         throw new Error(KEY_IS_NULL);
     }
 
-    if ( cipherText === null || cipherText.trim() === '' ) {
+    if ( !cipherText || cipherText.trim() === '' ) {
         throw new Error('cipherText must not be null');
     }
 
@@ -143,7 +143,7 @@ const aesDecrypt = (algorithm, base64KeyString, ivStr, cipherText) => {
 };
 
 module.exports = {
-    AES_ALGORITHM,
+    aesAlgorithm,
     generateAesKey,
     convertKeyToString,
     aesEncrypt,
