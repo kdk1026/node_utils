@@ -1,4 +1,4 @@
-const file = require('./file/file');
+const file = require('./file/file-util');
 
 console.log( 'isExistsFile : ', file.isExistsFile('D:/test/infoin.pem')  );
 

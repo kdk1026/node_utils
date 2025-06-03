@@ -1,4 +1,4 @@
-const digest = require('./crypto/digest');
+const digest = require('./crypto/digest-util');
 
 function test() {
     let plainText = 'apple';
