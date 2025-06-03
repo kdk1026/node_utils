@@ -24,6 +24,7 @@ function isExistsFile(filePath) {
         fs.accessSync(filePath, fs.F_OK);
         return true;
     } catch (e) {
+        console.error(e);
         return false;
     }
 }

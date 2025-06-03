@@ -1,4 +1,4 @@
-const file_types = require('./libs/file_types');
+const file_types = require('./file/file_types');
 
 console.log( 'getFileMimeType : ', file_types.getFileMimeType('D:/test/test.txt') );
 
