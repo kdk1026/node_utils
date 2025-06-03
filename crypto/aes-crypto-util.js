@@ -1,5 +1,5 @@
 /**
- * @author 김대광 <daekwang1026&#64;gmail.com>
+ * @author 김대광 <daekwang1026@gmail.com>
  * @since 2025.06.03
  * @version 1.0
  * @description 예전엔 crypto 모듈을 설치했으나 어느 순간 내장 모듈이 되었음

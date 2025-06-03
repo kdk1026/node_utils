@@ -1,3 +1,9 @@
+/**
+ * @author 김대광 <daekwang1026@gmail.com>
+ * @since 2025.06.03
+ * @version 1.0
+ */
+
 const bcrypt = require('bcrypt');
 
 /** Bcrypt 해싱 */

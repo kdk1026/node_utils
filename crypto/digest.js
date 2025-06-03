@@ -1,5 +1,5 @@
 /**
- * @author 김대광 <daekwang1026&#64;gmail.com>
+ * @author 김대광 <daekwang1026@gmail.com>
  * @since 2021.05.12
  * @version 1.0
  * @description Java 유틸을 참고 (아래 링크 참고)
