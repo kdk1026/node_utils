@@ -1,4 +1,4 @@
-const date = require('./libs/date');
+const date = require('./date/date-util');
 
 console.log( 'Today.getTodayString : ',  date.Today.getTodayString() );
 console.log( 'Today.getTodayStringFormat : ', date.Today.getTodayStringFormat('YYYY-MM-DD') );

@@ -27,6 +27,11 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
+    const allowedExtensions = [
+        "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx",
+        "hwp", "txt"
+    ];
+
     const allowedMimeTypes = [
         "image/jpeg", "image/png", "image/gif", "image/bmp",
         "application/pdf",
@@ -40,7 +45,7 @@ const fileFilter = (req, file, cb) => {
     if ( allowedMimeTypes.includes(file.mimetype) ) {
         cb(null, true);
     } else {
-        cb(new Error(`허용되지 않는 파일 형식입니다. (허용: ${allowedMimeTypes.join(', ')})`), false);
+        cb(new Error(`허용되지 않는 파일 형식입니다. (허용: ${allowedExtensions.join(', ')})`), false);
     }
 };
 
