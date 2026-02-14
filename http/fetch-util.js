@@ -42,8 +42,14 @@ export const get = async (isVerify, url, headers, ...uriVariables) => {
             throw new Error(`HTTP 에러 발생! 상태코드: ${response.status}`);
         }
 
-        const data = await response.json();
-        return data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            return data;
+        } else {
+            const data = await response.text();
+            return data;
+        }
     } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
     }
@@ -58,7 +64,11 @@ export const post = async (isVerify, url, headers, bodyObj, ...uriVariables) => 
         throw new Error(ExceptionMessage.isNullOrEmpty('url'));
     }
 
-    const isInvalidBody = !bodyObj || 
+    const isFormData = bodyObj instanceof FormData;
+
+    const isInvalidBody = isFormData
+        ? false
+        : !bodyObj ||
         (Array.isArray(bodyObj) && bodyObj.length === 0) || 
         (typeof bodyObj === 'object' && Object.keys(bodyObj).length === 0);
 
@@ -69,15 +79,15 @@ export const post = async (isVerify, url, headers, bodyObj, ...uriVariables) => 
     const path = uriVariables.length > 0 ? `/${uriVariables.join('/')}` : '';
     const fullUrl = `${url}${path}`;
 
-    const mergedHeaders = {
-        'Content-Type': 'application/json',
-        ...headers
-    };
+    const mergedHeaders = { ...headers };
+    if ( !isFormData ) {
+        mergedHeaders['Content-Type'] = 'application/json';
+    }
 
     const options = {
         method: "POST",
         headers: mergedHeaders,
-        body: JSON.stringify(bodyObj),
+        body: isFormData ? bodyObj : JSON.stringify(bodyObj),
         dispatcher: isVerify ? undefined : insecureAgent
     }
 
@@ -88,8 +98,14 @@ export const post = async (isVerify, url, headers, bodyObj, ...uriVariables) => 
             throw new Error(`HTTP 에러 발생! 상태코드: ${response.status}`);
         }
 
-        const data = await response.json();
-        return data;
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            const data = await response.json();
+            return data;
+        } else {
+            const data = await response.text();
+            return data;
+        }
     } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
     }
