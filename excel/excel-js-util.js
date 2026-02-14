@@ -1,3 +1,9 @@
+/**
+ * @author 김대광 <daekwang1026@gmail.com>
+ * @since 2026.02.14
+ * @version 1.0
+ */
+
 const ExcelJS = require('exceljs');
 
 const ExceptionMessage = {

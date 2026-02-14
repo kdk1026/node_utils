@@ -6,6 +6,7 @@
  */
 
 import { lookup } from "mime-types";
+import sharp from "sharp";
 
 const ExceptionMessage = {
     isNull: (paramName) => {
@@ -88,6 +89,21 @@ export function isImgFile(extension, mimeType) {
     ];
 
     return extArr.includes(extension) && mimeArr.includes(mimeType);
+}
+
+/**
+ * 이미지 파일이 올바른 이미지 형식이거나 손상되지 않았는지 체크
+ * @param {Buffer} buffer
+ * @returns 
+ */
+export async function isValidImage(buffer) {
+    try {
+        const metadata = await sharp(buffer).metadata();
+        return !!metadata;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 }
 
 /**
