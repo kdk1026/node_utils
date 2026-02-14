@@ -2,11 +2,12 @@
  * @author 김대광 <daekwang1026@gmail.com>
  * @since 2021.05.13
  * @version 1.0
- * @description Java 유틸을 참고 (아래 링크 참고)
- * @link https://github.com/kdk1026/CommonJava8/blob/master/CommonJava8/src/main/java/common/util/file/FileUtil.java
+ * @description 2026.02.14 수정
  */
 
-const fs = require('fs');
+import path from 'node:path';
+
+const fs = require('node:fs');
 const moment = require('moment');
 
 const SEPARATOR = {
@@ -14,12 +15,26 @@ const SEPARATOR = {
     EXTENSION_SEPARATOR : '.'
 };
 
+const ExceptionMessage = {
+    isNull: (paramName) => {
+        return `${paramName} is null`;
+    },
+
+    isNullOrEmpty: (paramName) => {
+        return `${paramName} is null or empty`;
+    }
+};
+
 /**
  * 파일의 존재여부 확인
  * @param {string} filePath 
  * @returns 
  */
-function isExistsFile(filePath) {
+export function isExistsFile(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
     try {
         fs.accessSync(filePath, fs.F_OK);
         return true;
@@ -34,27 +49,31 @@ function isExistsFile(filePath) {
  * @param {string} filePath 
  * @returns 
  */
-function getFilename(filePath) {
-    if (filePath == null) {
-        return filePath;
+export function getFilename(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
     }
 
-    let pos = filePath.lastIndexOf(SEPARATOR.FOLDER_SEPARATOR);
-    return (pos != -1 ? filePath.substring(pos + 1) : filePath);
+    return path.basename(filePath);
 }
 
 /**
  * 파일 확장자 구하기
- * @param {string} filePath 
+ * @param {string} fileName 
  * @returns 
  */
-function getFileExtension(filePath) {
-    if (filePath.lastIndexOf(SEPARATOR.EXTENSION_SEPARATOR) == -1) {
+export function getFileExtension(fileName) {
+    if ( !fileName?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('fileName'));
+    }
+
+    const ext = path.extname(fileName);
+
+    if (!ext) {
         return null;
     }
 
-    let pos = filePath.lastIndexOf(SEPARATOR.EXTENSION_SEPARATOR);
-    return filePath.substring(pos + 1);
+    return ext.startsWith('.') ? ext.slice(1) : ext;
 }
 
 /**
@@ -62,7 +81,11 @@ function getFileExtension(filePath) {
  * @param {string} filePath 
  * @returns 
  */
-function getFileSize(filePath) {
+export function getFileSize(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
     let stats = fs.statSync(filePath);
     return stats.size;
 }
@@ -73,11 +96,11 @@ function getFileSize(filePath) {
  * @param {number} fileSize 
  * @returns 
  */
-function readableFileSize(fileSize) {
+export function readableFileSize(fileSize) {
     if (fileSize <= 0) return '0';
     const units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
-    const i = parseInt(Math.floor(Math.log(fileSize) / Math.log(1024)));
+    const i = Number(Math.floor(Math.log(fileSize) / Math.log(1024)));
 
     if (i == 0) {
         return fileSize + ' ' + units[i];
@@ -91,7 +114,11 @@ function readableFileSize(fileSize) {
  * @param {string} filePath 
  * @returns 
  */
-function lastModified(filePath) {
+export function lastModified(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
     const stats = fs.statSync(filePath);
     const mtime = stats.mtime;
     return moment(mtime).format('YYYY-MM-DD HH:mm:ss');
@@ -102,7 +129,15 @@ function lastModified(filePath) {
  * @param {string} filePath 
  * @param {string} text 
  */
-function writeFile(filePath, text) {
+export function writeFile(filePath, text) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
+    if ( !text?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('text'));
+    }
+
     fs.writeFile(filePath, text, (err) => {
         if (err) {
             console.log(err);
@@ -115,7 +150,11 @@ function writeFile(filePath, text) {
  * @param {string} filePath 
  * @returns 
  */
-function readFile(filePath) {
+export function readFile(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
     const buff = fs.readFileSync(filePath);
     return buff.toString();
 }
@@ -125,7 +164,11 @@ function readFile(filePath) {
  * @param {string} filePath 
  * @returns 
  */
-function deleteFile(filePath) {
+export function deleteFile(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
     try {
         fs.unlinkSync(filePath);
         return true;
@@ -140,7 +183,15 @@ function deleteFile(filePath) {
  * @param {string} srcFilePath 
  * @param {string} destFilePath 
  */
-function copyFile(srcFilePath, destFilePath) {
+export function copyFile(srcFilePath, destFilePath) {
+    if ( !srcFilePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('srcFilePath'));
+    }
+
+    if ( !destFilePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('destFilePath'));
+    }
+
     fs.copyFile(srcFilePath, destFilePath, (err) => {
         if (err) {
             console.log(err);
@@ -153,7 +204,11 @@ function copyFile(srcFilePath, destFilePath) {
  * @param {string} filePath 
  * @returns 
  */
-function getAllFileList(filePath) {
+export function getAllFileList(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
     return fs.readdirSync(filePath);
 }
 
@@ -162,7 +217,11 @@ function getAllFileList(filePath) {
  * @param {string} filePath 
  * @returns 
  */
-function getFileList(filePath) {
+export function getFileList(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+
     const dirents = fs.readdirSync(filePath, { withFileTypes: true });
     
     const filesNames = dirents
@@ -177,7 +236,11 @@ function getFileList(filePath) {
  * @param {string} filePath 
  * @returns 
  */
-function getDirectoryList(filePath) {
+export function getDirectoryList(filePath) {
+    if ( !filePath?.trim() ) {
+        throw new Error(ExceptionMessage.isNullOrEmpty('filePath'));
+    }
+    
     const dirents = fs.readdirSync(filePath, { withFileTypes: true });
 
     const dirNames = dirents
@@ -186,19 +249,3 @@ function getDirectoryList(filePath) {
 
     return dirNames;
 }
-
-module.exports = {
-    isExistsFile,
-    getFilename,
-    getFileExtension,
-    getFileSize,
-    readableFileSize,
-    lastModified,
-    writeFile,
-    readFile,
-    deleteFile,
-    copyFile,
-    getAllFileList,
-    getFileList,
-    getDirectoryList
-};
